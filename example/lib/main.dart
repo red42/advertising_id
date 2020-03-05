@@ -10,7 +10,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _advertisingId = '';
+  AdvertisingIdInfo _advertisingIdInfo;
 
   @override
   initState() {
@@ -20,12 +20,12 @@ class _MyAppState extends State<MyApp> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   initPlatformState() async {
-    String advertisingId;
+    AdvertisingIdInfo advertisingIdInfo;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      advertisingId = await AdvertisingId.id;
+      advertisingIdInfo = await AdvertisingId.advertisingIdInfo;
     } on PlatformException {
-      advertisingId = 'Failed to get platform version.';
+      advertisingIdInfo = null;
     }
 
     // If the widget was removed from the tree while the asynchronous platform
@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
       return;
 
     setState(() {
-      _advertisingId = advertisingId;
+      _advertisingIdInfo = advertisingIdInfo;
     });
   }
 
@@ -47,7 +47,7 @@ class _MyAppState extends State<MyApp> {
           title: new Text('Plugin example app'),
         ),
         body: new Center(
-          child: new Text('Advertising Id: $_advertisingId'),
+          child: new Text('Advertising Id: ${_advertisingIdInfo.advertisingId}'),
         ),
       ),
     );

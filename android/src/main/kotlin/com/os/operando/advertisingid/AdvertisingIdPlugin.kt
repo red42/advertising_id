@@ -22,9 +22,11 @@ class AdvertisingIdPlugin(private val registrar: Registrar) : MethodCallHandler 
         when (call.method) {
             "getAdvertisingId" -> thread {
                 try {
-                    val id = AdvertisingIdClient.getAdvertisingIdInfo(registrar.context()).id
+
+                    val info = AdvertisingIdClient.getAdvertisingIdInfo(registrar.context())
+                    val map = mapOf("advertising_id" to info.id, "tracking_alloweed" to !info.isLimitAdTrackingEnabled)
                     registrar.activity().runOnUiThread {
-                        result.success(id)
+                        result.success(map)
                     }
                 } catch (e: Exception) {
                     registrar.activity().runOnUiThread {

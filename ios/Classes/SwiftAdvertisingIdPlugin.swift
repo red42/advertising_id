@@ -14,12 +14,10 @@ public class SwiftAdvertisingIdPlugin: NSObject, FlutterPlugin {
     case "getAdvertisingId":
         var idfaString: String!
         let manager = ASIdentifierManager.shared()
-        if manager.isAdvertisingTrackingEnabled {
-            idfaString = manager.advertisingIdentifier.uuidString
-        } else {
-            idfaString = ""
-        }
-        result(idfaString)
+
+        let ret:[String:Any] = ["advertising_id": manager.advertisingIdentifier.uuidString, "tracking_allowed":manager.isAdvertisingTrackingEnabled]
+
+        result(ret)
     default:
         result(nil)
     }
